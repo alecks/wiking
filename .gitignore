@@ -16,7 +16,7 @@ chrome-profiler-events*.json
 speed-measure-plugin*.json
 
 # IDEs and editors
-angular/.idea
+.idea
 .project
 .classpath
 .c9angular/
@@ -32,6 +32,10 @@ angular/.idea
 !.vscodeangular/extensions.json
 .historyangular/*
 
+# files to stop vscode from acting up
+/go.mod
+/go.sum
+
 # misc
 angular/.sass-cache
 angular/connect.lock
@@ -45,3 +49,4 @@ angular/typings
 # System Files
 .DS_Store
 Thumbs.db
+api/wiking.db
