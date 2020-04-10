@@ -1,17 +1,31 @@
 import { Component, Input } from '@angular/core';
 import { AppConfiguration } from 'src/configuration';
+import { MatDialog } from '@angular/material/dialog';
+import { LoginComponent } from '../login/login.component';
 
 @Component({
   selector: 'app-toolbar',
   templateUrl: './toolbar.component.html',
-  styleUrls: ['./toolbar.component.scss']
+  styleUrls: ['./toolbar.component.scss'],
 })
 export class ToolbarComponent {
-
   @Input() title: string;
-  config = AppConfiguration
+  config = AppConfiguration;
+  username = '';
+  password = '';
 
-  // TODO: get from API
-  buttons = [{ name: "GitHub", icon: "code", href: "https://github.com/fjah/wiking" }]
+  // This is static; no need to get from api. Might implement customisation.
+  buttons = [
+    { name: 'Login', icon: 'account_circle', click: 'openLogin()' },
+    { name: 'GitHub', icon: 'code', href: AppConfiguration.githubLink },
+  ];
 
+  constructor(private dialog: MatDialog) {}
+
+  openLogin(): void {
+    const dialogRef = this.dialog.open(LoginComponent, {
+      width: '25rem',
+      data: { username: this.username, password: this.password },
+    });
+  }
 }

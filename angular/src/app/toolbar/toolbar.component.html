@@ -1,7 +1,14 @@
 <mat-toolbar color="primary">
   <span>{{ title }}</span>
   <span class="toolbar-fillrest"></span>
-  <a *ngFor="let button of buttons" href="{{ button.href }}" mat-button>
+  <a
+    *ngFor="let button of buttons"
+    routerLink="{{ button.routerLink }}"
+    routerLinkActive="active"
+    (click)="openLogin()"
+    href="{{ button.href }}"
+    mat-button
+  >
     <mat-icon>{{ button.icon }}</mat-icon> {{ button.name }}
   </a>
 </mat-toolbar>
