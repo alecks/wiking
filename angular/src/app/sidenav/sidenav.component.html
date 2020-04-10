@@ -1,0 +1,15 @@
+<mat-sidenav-container>
+  <mat-sidenav opened mode="side">
+    <mat-nav-list>
+      <a *ngFor="let item of list" (click)="onClick()" mat-list-item href="#"
+        ><mat-icon>{{ item.icon }}</mat-icon> &nbsp; {{ item.name }}</a
+      >
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <h1 class="page-title">Welcome to Wiking!</h1>
+    <p>
+      The wiki is currently heavily WIP. Come back soon.
+    </p>
+  </mat-sidenav-content>
+</mat-sidenav-container>
