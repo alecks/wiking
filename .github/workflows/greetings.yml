@@ -1,0 +1,13 @@
+name: Greetings
+
+on: [pull_request, issues]
+
+jobs:
+  greeting:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/first-interaction@v1
+      with:
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        issue-message: 'Hey! Thanks for deciding to help improve Wiking. While you''re here, make sure you''ve not made a duplicate issue, etc.'
+        pr-message: 'Hey! Thanks for deciding to help improve Wiking. While you''re here, make sure you''ve not made a duplicate PR and that you''ve conducted the required tests, etc.'
