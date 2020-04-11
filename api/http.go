@@ -13,7 +13,7 @@ var r *gin.Engine
 var routes []route
 
 func serverListen() {
-	gin.SetMode(gin.DebugMode)
+	gin.SetMode(gin.ReleaseMode)
 	r = gin.Default()
 
 	go setRoutes()
