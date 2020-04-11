@@ -36,7 +36,6 @@ func init() {
 
 					if bkt.Get([]byte(body.Username)) != nil {
 						c.AbortWithStatus(409)
-						return err
 					}
 
 					hash, err := bcrypt.GenerateFromPassword([]byte(body.Password), bcrypt.DefaultCost)
@@ -55,14 +54,12 @@ func init() {
 							createUser(bkt, body, hash)
 							sBkt.Put([]byte(body.Username), []byte{superuserAllow["ownerUser"]})
 							log.Println("Registered a new ownerUser!")
-							c.Status(201)
-							return err
+							c.AbortWithStatus(201)
 						}
 						pHash := bkt.Get([]byte(body.PermitUsername))
 						if pHash == nil {
-							c.Status(401)
-							return err
-						}
+							c.AbortWithStatus(401)
+]						}
 
 						ok := false
 						userType := ""
@@ -74,16 +71,14 @@ func init() {
 							}
 						}
 						if sudo := sBkt.Get([]byte(body.PermitUsername)); !ok || sudo == nil || sudo[0] < superuserAllow["adminUser"] {
-							c.Status(403)
-							return err
+							c.AbortWithStatus(403)
 						}
 
 						if err := bcrypt.CompareHashAndPassword(pHash, []byte(body.PermitPassword)); err == nil {
 							createUser(bkt, body, hash)
 							sBkt.Put([]byte(body.Username), []byte{body.Superuser})
 							log.Println("Registered a new " + userType + ".")
-							c.Status(201)
-							return err
+							c.AbortWithStatus(201)
 						}
 					} else {
 						createUser(bkt, body, hash)
