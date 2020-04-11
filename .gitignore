@@ -49,4 +49,7 @@ angular/typings
 # System Files
 .DS_Store
 Thumbs.db
+
+# Databases
 api/wiking.db
+api/go.sum
