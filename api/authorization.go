@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"go.etcd.io/bbolt"
@@ -17,6 +18,11 @@ type signupRequest struct {
 	PermitPassword string `json:"permitPassword"`
 }
 
+type authorizeRequest struct {
+	Username string `json:"username"`
+	Password string `json:"password"`
+}
+
 func init() {
 	routes = append(routes, route{
 		path:   apiPath + "auth/user",
@@ -29,6 +35,7 @@ func init() {
 					c.AbortWithStatus(400)
 				}
 
+				// TODO: Comment this
 				err = db.Update(func(tx *bbolt.Tx) error {
 					var err error
 					bkt := tx.Bucket([]byte("Users"))
@@ -90,6 +97,65 @@ func init() {
 				})
 
 				if err != nil {
+					c.AbortWithError(500, err)
+				}
+			},
+		},
+	})
+
+	// This averages 15ms locally, which is quite slow in comparison to other endpoints.
+	routes = append(routes, route{
+		path:   apiPath + "auth/authorize",
+		method: "POST",
+		handlers: []gin.HandlerFunc{
+			func(c *gin.Context) {
+				body := &authorizeRequest{}
+				err := c.BindJSON(body)
+				if err != nil {
+					// Couldn't parse JSON; bad request
+					c.AbortWithStatus(400)
+				}
+
+				err = db.Update(func(tx *bbolt.Tx) error {
+					var err error
+
+					// All users
+					bkt := tx.Bucket([]byte("Users"))
+					// All logged in users
+					lBkt := tx.Bucket([]byte("Authorized"))
+
+					if hash := bkt.Get([]byte(body.Username)); hash != nil {
+						// The user exists
+						if err := bcrypt.CompareHashAndPassword(hash, []byte(body.Password)); err == nil {
+							// The password was correct
+							// Expiration: 168h = 7d = 1w
+							// TODO: Improve the conversions; not exactly sure whether or not they're efficient.
+							lBkt.Put([]byte(body.Username), []byte{byte(time.Now().Add(time.Hour * 168).Unix())})
+
+							// User logged in; see other
+							c.JSON(303, map[string]interface{}{
+								"error":   false,
+								"message": apiPath + "pages",
+							})
+						} else {
+							// The password was incorrect; forbidden
+							c.JSON(403, map[string]interface{}{
+								"error":   true,
+								"message": "Incorrect password.",
+							})
+						}
+					} else {
+						// Invalid username; unauthorized
+						c.JSON(401, map[string]interface{}{
+							"error":   true,
+							"message": "Invalid username.",
+						})
+					}
+
+					return err
+				})
+				if err != nil {
+					// Error occurred while updating database; internal server error
 					c.AbortWithError(500, err)
 				}
 			},

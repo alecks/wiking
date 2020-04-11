@@ -1,11 +1,10 @@
 <h1 mat-dialog-title>Login</h1>
 <div mat-dialog-content>
-  <p>Here's to accessing an all-new, intuitive experience.</p>
+  <p>Log in to access an all-new, intuitive experience.</p>
   <mat-form-field>
     <mat-label>Username</mat-label>
     <input matInput [(ngModel)]="data.username" />
   </mat-form-field>
-  <div class="spacer"></div>
   <mat-form-field>
     <mat-label>Password</mat-label>
     <input matInput [(ngModel)]="data.password"/>
@@ -15,4 +14,5 @@
   <button mat-button (click)="onSubmit()" cdkFocusInitial>Sign Up</button>
   <button mat-button (click)="onSubmit()">Login</button>
   <mat-progress-bar *ngIf="loader" mode="indeterminate"></mat-progress-bar>
+  <div *ngIf="loader" class="small-spacer"></div>
 </div>

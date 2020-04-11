@@ -17,6 +17,7 @@ func init() {
 	go db.Update(func(tx *bbolt.Tx) error {
 		_, err = tx.CreateBucketIfNotExists([]byte("Users"))
 		_, err = tx.CreateBucketIfNotExists([]byte("Superusers"))
+		_, err = tx.CreateBucketIfNotExists([]byte("Authorized"))
 		return err
 	})
 }
