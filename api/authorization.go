@@ -59,7 +59,7 @@ func init() {
 						pHash := bkt.Get([]byte(body.PermitUsername))
 						if pHash == nil {
 							c.AbortWithStatus(401)
-]						}
+						}
 
 						ok := false
 						userType := ""
