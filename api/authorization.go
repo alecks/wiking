@@ -2,7 +2,9 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
+	"strconv"
 	"time"
 
 	"github.com/labstack/echo"
@@ -131,7 +133,8 @@ func init() {
 						lBkt.Put([]byte(body.Username), []byte{byte(expiration)})
 
 						// User logged in; OK
-						return c.String(200, string(expiration))
+						fmt.Println(expiration)
+						return c.String(200, strconv.FormatInt(expiration, 10))
 					}
 
 					// The password was incorrect; forbidden
