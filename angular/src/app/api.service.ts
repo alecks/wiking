@@ -10,7 +10,7 @@ export class ApiService {
 
   constructor(private http: HttpClient) {}
 
-  async authorize(username: string, password: string): Promise<any> {
+  authorize(username: string, password: string): Promise<any> {
     return this.http
       .post(
         this.path + 'auth/authorize',
@@ -25,7 +25,7 @@ export class ApiService {
       .toPromise();
   }
 
-  async signup(
+  signup(
     username: string,
     password: string,
     permitUsername?: string,
