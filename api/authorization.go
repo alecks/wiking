@@ -29,7 +29,7 @@ func init() {
 		e.POST(apiPath+"auth/user", func(c echo.Context) error {
 			body := &signupRequest{}
 			err := json.NewDecoder(c.Request().Body).Decode(body)
-			if err != nil {
+			if err != nil || body.Username == "" || body.Password == "" {
 				// Invalid JSON; bad request
 				return echo.NewHTTPError(400, err)
 			}
