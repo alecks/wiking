@@ -10,10 +10,12 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./toolbar.component.scss'],
 })
 export class ToolbarComponent {
+
   @Input() title: string;
   config = AppConfiguration;
   username = '';
   password = '';
+  error = '';
 
   // This is static; no need to get from api. Might implement customisation.
   buttons = [
@@ -26,7 +28,12 @@ export class ToolbarComponent {
   openLogin(): void {
     const dialogRef = this.dialog.open(LoginComponent, {
       width: '25rem',
-      data: { username: this.username, password: this.password },
+      data: { username: this.username, password: this.password, error: this.error },
+    });
+    dialogRef.componentInstance.snackbarEvent.subscribe(res => {
+      dialogRef.componentInstance.loader = false;
+      this.snackbar.open(res, "Close");
     });
   }
+
 }

@@ -127,10 +127,11 @@ func init() {
 						// The password was correct
 						// Expiration: 168h = 7d = 1w
 						// TODO: Improve the conversions; not exactly sure whether or not they're efficient.
-						lBkt.Put([]byte(body.Username), []byte{byte(time.Now().Add(time.Hour * 168).Unix())})
+						expiration := time.Now().Add(time.Hour * 168).Unix()
+						lBkt.Put([]byte(body.Username), []byte{byte(expiration)})
 
-						// User logged in; see other
-						return c.String(303, apiPath+"pages")
+						// User logged in; OK
+						return c.String(200, string(expiration))
 					}
 
 					// The password was incorrect; forbidden

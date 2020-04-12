@@ -7,13 +7,12 @@
   </mat-form-field>
   <mat-form-field>
     <mat-label>Password</mat-label>
-    <input matInput [(ngModel)]="data.password"/>
+    <input type="password" matInput [(ngModel)]="data.password"/>
   </mat-form-field>
 </div>
 <div mat-dialog-actions>
   <button mat-button (click)="onSignup()" cdkFocusInitial>Sign Up</button>
   <button mat-button (click)="onLogin()">Login</button>
   <mat-progress-bar *ngIf="loader" mode="indeterminate"></mat-progress-bar>
-  <div *ngIf="loader || error" class="small-spacer"></div>
-  <p>{{ error }}</p>
+  <div *ngIf="loader" class="small-spacer"></div>
 </div>

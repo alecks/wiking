@@ -1,8 +1,7 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, Output } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { AppConfiguration } from 'src/configuration';
 import { ApiService } from '../api.service';
+import { EventEmitter } from '@angular/core';
 
 export interface DialogData {
   username: string;
@@ -16,29 +15,29 @@ export interface DialogData {
 })
 export class LoginComponent {
   loader = false;
-  error = '';
+  public snackbarEvent = new EventEmitter<string>();
 
   constructor(
     private api: ApiService,
     public dialogRef: MatDialogRef<LoginComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData
   ) {}
 
   onLogin() {
     this.loader = true;
 
-    this.api.authorize(this.data.username, this.data.password).catch(e => this.error = e.message).then(res => {
-      this.error = res;
-      this.loader = false;
-    });
+    this.api
+      .authorize(this.data.username, this.data.password)
+      .then((res) => this.snackbarEvent.emit(res))
+      .catch((e) => this.snackbarEvent.emit(e.message));
   }
 
   onSignup() {
     this.loader = true;
 
-    this.api.signup(this.data.username, this.data.password).catch(e => this.error = e.message).then(res => {
-      this.error = res;
-      this.loader = false;
-    });
+    this.api
+      .signup(this.data.username, this.data.password)
+      .then((res) => this.snackbarEvent.emit(res))
+      .catch((e) => this.snackbarEvent.emit(e.message));
   }
 }
