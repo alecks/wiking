@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"log"
 	"strconv"
 	"time"
@@ -133,7 +132,6 @@ func init() {
 						lBkt.Put([]byte(body.Username), []byte{byte(expiration)})
 
 						// User logged in; OK
-						fmt.Println(expiration)
 						return c.String(200, strconv.FormatInt(expiration, 10))
 					}
 
