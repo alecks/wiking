@@ -18,9 +18,7 @@ export class ApiService {
           username: username.trim(),
           password,
         },
-        {
-          responseType: 'text',
-        }
+        { responseType: 'text' }
       )
       .toPromise();
   }
@@ -42,9 +40,7 @@ export class ApiService {
           permitPassword,
           superuser,
         },
-        {
-          responseType: 'text',
-        }
+        { responseType: 'text' }
       )
       .toPromise();
   }
