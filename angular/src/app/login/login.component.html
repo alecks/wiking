@@ -11,8 +11,9 @@
   </mat-form-field>
 </div>
 <div mat-dialog-actions>
-  <button mat-button (click)="onSubmit()" cdkFocusInitial>Sign Up</button>
-  <button mat-button (click)="onSubmit()">Login</button>
+  <button mat-button (click)="onSignup()" cdkFocusInitial>Sign Up</button>
+  <button mat-button (click)="onLogin()">Login</button>
   <mat-progress-bar *ngIf="loader" mode="indeterminate"></mat-progress-bar>
-  <div *ngIf="loader" class="small-spacer"></div>
+  <div *ngIf="loader || error" class="small-spacer"></div>
+  <p>{{ error }}</p>
 </div>

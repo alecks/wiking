@@ -1,43 +1,24 @@
 package main
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/labstack/echo"
+	"github.com/labstack/echo/middleware"
+)
 
-type route struct {
-	path     string
-	method   string
-	handlers []gin.HandlerFunc
-}
+var e *echo.Echo
 
-var r *gin.Engine
-
-var routes []route
+var routes []func()
 
 func serverListen() {
-	gin.SetMode(gin.ReleaseMode)
-	r = gin.Default()
+	e = echo.New()
+	e.Use(middleware.CORSWithConfig(middleware.DefaultCORSConfig))
+	setRoutes()
 
-	go setRoutes()
-
-	r.Run()
+	e.Logger.Fatal(e.Start(":80"))
 }
 
-// TODO: Improve this.
 func setRoutes() {
 	for _, v := range routes {
-		if v.method == "GET" {
-			r.GET(v.path, v.handlers...)
-		} else if v.method == "POST" {
-			r.POST(v.path, v.handlers...)
-		} else if v.method == "OPTIONS" {
-			r.OPTIONS(v.path, v.handlers...)
-		} else if v.method == "DELETE" {
-			r.DELETE(v.path, v.handlers...)
-		} else if v.method == "PATCH" {
-			r.PATCH(v.path, v.handlers...)
-		} else if v.method == "PUT" {
-			r.PUT(v.path, v.handlers...)
-		} else if v.method == "HEAD" {
-			r.HEAD(v.path, v.handlers...)
-		}
+		v()
 	}
 }

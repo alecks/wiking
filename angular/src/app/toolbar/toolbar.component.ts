@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { AppConfiguration } from 'src/configuration';
 import { MatDialog } from '@angular/material/dialog';
 import { LoginComponent } from '../login/login.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-toolbar',
@@ -20,7 +21,7 @@ export class ToolbarComponent {
     { name: 'GitHub', icon: 'code', href: AppConfiguration.githubLink },
   ];
 
-  constructor(private dialog: MatDialog) {}
+  constructor(private dialog: MatDialog, private snackbar: MatSnackBar) {}
 
   openLogin(): void {
     const dialogRef = this.dialog.open(LoginComponent, {
