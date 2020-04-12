@@ -1,14 +1,14 @@
 <mat-toolbar color="primary">
+  <a type="button" mat-button (click)="drawer.drawer.toggle()">
+    <mat-icon>menu</mat-icon>
+  </a>
+  &nbsp;
   <span>{{ title }}</span>
   <span class="toolbar-fillrest"></span>
-  <a
-    *ngFor="let button of buttons"
-    routerLink="{{ button.routerLink }}"
-    routerLinkActive="active"
-    (click)="openLogin()"
-    href="{{ button.href }}"
-    mat-button
-  >
-    <mat-icon>{{ button.icon }}</mat-icon> {{ button.name }}
+  <a (click)="openLogin()" mat-button>
+    <mat-icon>account_circle</mat-icon> Login
+  </a>
+  <a href="{{ config.githubLink }}" mat-button>
+    <mat-icon>code</mat-icon> GitHub
   </a>
 </mat-toolbar>

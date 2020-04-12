@@ -19,13 +19,15 @@ export class ToolbarComponent {
 
   // This is static; no need to get from api. Might implement customisation.
   buttons = [
-    { name: 'Login', icon: 'account_circle', click: 'openLogin()' },
+    { name: 'Login', icon: 'account_circle', click: this.openLogin },
     { name: 'GitHub', icon: 'code', href: AppConfiguration.githubLink },
   ];
 
+  @Input() drawer
+
   constructor(private dialog: MatDialog, private snackbar: MatSnackBar) {}
 
-  openLogin(): void {
+  openLogin() {
     const dialogRef = this.dialog.open(LoginComponent, {
       width: '25rem',
       data: { username: this.username, password: this.password, error: this.error },

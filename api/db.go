@@ -6,6 +6,9 @@ import (
 
 var db *bbolt.DB
 
+// Registered users, user permissions, logged in users,
+var buckets = []string{"Users", "Superusers", "Authorized", "Pages", "Content"}
+
 func init() {
 	// Due to assignment issues:
 	var err error
@@ -15,9 +18,9 @@ func init() {
 	}
 
 	go db.Update(func(tx *bbolt.Tx) error {
-		_, err = tx.CreateBucketIfNotExists([]byte("Users"))
-		_, err = tx.CreateBucketIfNotExists([]byte("Superusers"))
-		_, err = tx.CreateBucketIfNotExists([]byte("Authorized"))
+		for _, v := range buckets {
+			_, err = tx.CreateBucketIfNotExists([]byte(v))
+		}
 		return err
 	})
 }

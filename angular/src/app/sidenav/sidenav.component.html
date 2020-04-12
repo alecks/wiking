@@ -1,15 +1,41 @@
-<mat-sidenav-container>
-  <mat-sidenav opened mode="side">
+<mat-drawer-container class="sidenav-container">
+  <mat-drawer #drawer opened class="sidenav" mode="side">
     <mat-nav-list>
-      <a *ngFor="let item of list" (click)="onClick()" mat-list-item href="#"
+      <a *ngFor="let item of list" (click)="item.click()" mat-list-item href="#"
         ><mat-icon>{{ item.icon }}</mat-icon> &nbsp; {{ item.name }}</a
       >
     </mat-nav-list>
-  </mat-sidenav>
-  <mat-sidenav-content>
-    <h1 class="page-title">Welcome to Wiking!</h1>
-    <p>
-      The wiki is currently heavily WIP. Come back soon.
-    </p>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+  </mat-drawer>
+  <div class="sidenav-content">
+    <div
+      fxLayout="row wrap"
+      fxLayout.lt-sm="column"
+      fxLayoutGap="1rem"
+      fxLayoutAlign="center"
+    >
+      <mat-card
+        fxFlex="0 1 calc(33.3% - 32px)"
+        fxFlex.lt-md="0 1 calc(50% - 32px)"
+        fxFlex.lt-sm="100%"
+        class="card container"
+      >
+        <mat-card-header>
+          <div mat-card-avatar class="header-image"></div>
+          <mat-card-title>Wiking</mat-card-title>
+          <mat-card-subtitle>Modern Wiki</mat-card-subtitle>
+        </mat-card-header>
+        <img mat-card-image src="assets/img/ok.jpg" alt="Wiking" />
+        <mat-card-content>
+          <p>
+            Wiking is an easy-to-use, stable and beautiful wiki. It's written in
+            Go (Echo) and TypeScript (Angular).
+          </p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-button>VIEW</button>
+          <button mat-button>EDIT</button>
+        </mat-card-actions> </mat-card
+      >
+    </div>
+  </div>
+</mat-drawer-container>

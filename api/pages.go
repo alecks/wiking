@@ -17,11 +17,10 @@ func init() {
 					var arr []string
 					bkt.ForEach(func(k, v []byte) error {
 						arr = append(arr, "k:v")
+						return nil
 					})
 
-					return c.JSON(200, map[string]interface{}{
-
-					})
+					return c.JSON(200, map[string]interface{}{})
 				}
 
 				return err
